@@ -30,16 +30,16 @@ public class SwaggerConfig {
     public OpenAPI myOpenAPI() {
         Server devServer = new Server();
         devServer.setUrl(url);
-        devServer.setDescription("Kun uz mazgi test project");
+        devServer.setDescription("Stadium uz mazgi test project");
 
         Contact contact = new Contact();
-        contact.setEmail("kun.uz");
+        contact.setEmail("stadium.uz");
         contact.setName("BezKoder");
         contact.setUrl("https://www.bezkoder.com");
 
 
         Info info = new Info()
-                .title("Kun uz Management API")
+                .title("Stadium uz Management API")
                 .version("1.0")
                 .contact(contact)
                 .description("This API exposes endpoints to manage tutorials.")
