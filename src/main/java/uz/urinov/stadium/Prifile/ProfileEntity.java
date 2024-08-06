@@ -3,6 +3,7 @@ package uz.urinov.stadium.Prifile;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
+import org.hibernate.annotations.UuidGenerator;
 
 
 import java.time.LocalDateTime;
@@ -14,15 +15,14 @@ import java.time.LocalDateTime;
 public class ProfileEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer id;
+    @UuidGenerator
+    private String id;
 
     @Column(length = 50)
     private String name;
 
     @Column(length = 50)
     private String surname;
-
 
     @Column(length = 50, unique = true)
     private String phone;
@@ -42,7 +42,5 @@ public class ProfileEntity {
     @Column(name = "create_date")
     private LocalDateTime createDate=LocalDateTime.now();
 
-    @Column(name = "photo_id",unique = true)
-    private String photoId;
 
 }

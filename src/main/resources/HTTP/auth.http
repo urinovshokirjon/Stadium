@@ -1,0 +1,20 @@
+###  Profile registration Sms
+POST http://localhost:8080/auth/registration-sms
+Content-Type: application/json
+
+{
+  "name": "Shokirjon",
+  "surname": "Urinov",
+  "phone": "+998941785150",
+  "password": "12345",
+  "role": "ROLE_USER"
+}
+
+### Profile login
+POST http://localhost:8080/auth/login
+Content-Type: application/json
+
+{
+  "username": "+998941785150",
+  "password": "12345"
+}
