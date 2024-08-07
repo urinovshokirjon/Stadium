@@ -1,0 +1,15 @@
+INSERT INTO region (id,order_number,name_uz, name_ru, name_en,visible,create_date) VALUES
+                                                   (1,1,'Toshkent shahri', 'Город Ташкент', 'Tashkent city',true, now()),
+                                                   (2,2,'Toshkent viloyati', 'Ташкентская область', 'Tashkent region',true, now()),
+                                                   (3,3,'Andijon viloyati', 'Андижанская область', 'Andijan region',true, now()),
+                                                   (4,4,'Buxoro viloyati', 'Бухарская область', 'Bukhara region',true, now()),
+                                                   (5,5,'Farg‘ona viloyati', 'Ферганская область', 'Fergana region',true, now()),
+                                                   (6,6,'Jizzax viloyati', 'Джизакская область', 'Jizzakh region',true, now()),
+                                                   (7,7,'Xorazm viloyati', 'Хорезмская область', 'Khorezm region',true, now()),
+                                                   (8,8,'Namangan viloyati', 'Наманганская область', 'Namangan region',true, now()),
+                                                   (9,9,'Navoiy viloyati', 'Навоийская область', 'Navoi region',true, now()),
+                                                   (10,10,'Qashqadaryo viloyati', 'Кашкадарьинская область', 'Kashkadarya region',true, now()),
+                                                   (11,11,'Qoraqalpog‘iston Respublikasi', 'Республика Каракалпакстан', 'Republic of Karakalpakstan',true, now()),
+                                                   (12,12,'Samarqand viloyati', 'Самаркандская область', 'Samarkand region',true, now()),
+                                                   (13,13,'Sirdaryo viloyati', 'Сырдарьинская область', 'Syrdarya region',true, now()),
+                                                   (14,14,'Surxondaryo viloyati', 'Сурхандарьинская область', 'Surkhandarya region',true, now());
