@@ -11,7 +11,7 @@ public interface ProfileRepository extends CrudRepository<ProfileEntity, String>
     Optional<ProfileEntity> findByPhoneAndVisibleTrue(String phone);
 
     // Phone number exist
-    Boolean existsByPhone(String phone);
+    Optional<ProfileEntity> findByPhone(String phone);
     // Profile login
     @Query("SELECT p FROM ProfileEntity AS p WHERE p.phone=?1 AND p.password=?2 AND p.visible=true AND p.status='ACTIVE'")
     Optional<ProfileEntity> findByPhoneAndPasswordAndVisibleTrueAndStatusActive(String phone, String password);

@@ -61,6 +61,8 @@ public class SecurityConfig {
                     authorizationManagerRequestMatcherRegistry
                             .requestMatchers("/auth/**").permitAll()
                             .requestMatchers("/v3/api-docs/**","/swagger-ui/**").permitAll()
+                            .requestMatchers("/category/adm/**").hasRole("ADMIN")
+                            .requestMatchers("/category/lang").permitAll()
 
 
 

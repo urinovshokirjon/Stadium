@@ -22,9 +22,9 @@ public class AuthController {
 
     // CheckUserPhoneRequest
     @PostMapping("/check-user-phone")
-    public ResponseEntity<Result> checkUserPhone(@Valid @RequestBody CheckUserPhoneResponse dto) {
-        Result result = authService.checkUserPhone(dto);
-        return ResponseEntity.status(result.isSuccess() ? 200 : 409).body(result);
+    public ResponseEntity<Status> checkUserPhone(@Valid @RequestBody CheckUserPhoneResponse dto) {
+        Status result = authService.checkUserPhone(dto);
+        return ResponseEntity.ok().body(result);
     }
 
     // Profile registration Sms

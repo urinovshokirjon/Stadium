@@ -28,18 +28,26 @@ public class AuthService {
     private final SmsHistoryService smsHistoryService;
 
     // CheckUserPhoneRequest
-    public Result checkUserPhone(CheckUserPhoneResponse dto) {
-        Boolean existsByPhone = profileRepository.existsByPhone(dto.getPhone());
-        if (existsByPhone) {
-            return new Result("Bunday telefon mavjud. Loginga jo'nating",true);
+    public Status checkUserPhone(CheckUserPhoneResponse dto) {
+        Optional<ProfileEntity> optionalProfile = profileRepository.findByPhone(dto.getPhone());
+        if (optionalProfile.isEmpty()) {
+            return Status.NOT_FOUND;
         }
-        return new Result("Bunday telefon mavjud emas. Registrationga jo'nating",false);
+        ProfileEntity profileEntity = optionalProfile.get();
+        if (!profileEntity.getVisible()){
+            return Status.BLOCKED;
+        }
+        if (profileEntity.getStatus().equals(ProfileStatus.INACTIVE)){
+            return Status.INACTIVE;
+        }
+        return Status.ACTIVE;
+
     }
 
     // Profile registration Sms
     public Result registrationSms(ProfileCreateDTO dto) {
-        Boolean existsByPhone = profileRepository.existsByPhone(dto.getPhone());
-        if(existsByPhone) {
+        Optional<ProfileEntity> optionalProfile = profileRepository.findByPhone(dto.getPhone());
+        if(optionalProfile.isPresent()) {
             log.warn("Ismi name = {}, phone = {}", dto.getName(), dto.getPhone());
             return new Result("Bunday telefon  oldin ro'yxatga olingan", false);
         }
