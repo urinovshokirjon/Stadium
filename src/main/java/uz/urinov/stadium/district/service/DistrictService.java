@@ -112,6 +112,21 @@ public class DistrictService {
         return districtLangDtoList;
     }
 
+    // 6. District Region  By Lang
+    public List<DistrictResponseDTO> getDistrictRegionId(int regionId, Language lang) {
+        regionService.getRegionEntityById(regionId, lang);
+        List<DistrictResponseDTO> districtRegionDtoList = new ArrayList<>();
+
+        for (DistrictMapper districtMapper : districtRepository.getDistrictRegionId(lang.name(),regionId)) {
+            DistrictResponseDTO districtLangDto = new DistrictResponseDTO();
+            districtLangDto.setId(districtMapper.getId());
+            districtLangDto.setRegionId(districtMapper.getRegionId());
+            districtLangDto.setName(districtMapper.getName());
+            districtRegionDtoList.add(districtLangDto);
+        }
+        return districtRegionDtoList;
+    }
+
 
     public DistrictResponseDTO toDTO(DistrictEntity entity) {
         DistrictResponseDTO dto = new DistrictResponseDTO();

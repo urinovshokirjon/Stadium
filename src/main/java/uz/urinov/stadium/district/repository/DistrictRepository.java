@@ -24,6 +24,17 @@ public interface DistrictRepository extends CrudRepository<DistrictEntity, Integ
             " FROM district ORDER BY order_number DESC; ", nativeQuery = true)
     List<DistrictMapper> findAll(@Param("lang") String lang);
 
+    //   // 6. District Region  By Lang
+    @Query(value = "SELECT id,region_id, " +
+            " CASE :lang " +
+            " WHEN 'UZ' THEN name_uz " +
+            " WHEN 'RU' THEN name_ru " +
+            " WHEN 'EN' THEN name_en " +
+            " END AS name " +
+            " FROM district " +
+            " WHERE region_id:regionId ORDER BY order_number DESC; ", nativeQuery = true)
+    List<DistrictMapper> getDistrictRegionId(@Param("lang") String lang, @Param("regionId") int regionId);
+
 
 
 
