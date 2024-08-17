@@ -75,7 +75,7 @@ public class DistrictService {
     }
 
 //     5. District By Lang
-    public List<DistrictResponseDTO> getDistrictByLang(LanguageEnum lang) {
+    public List<DistrictResponseDTO> getDistrictByLang(Language lang) {
 
         List<DistrictResponseDTO> districtLangDtoList = new ArrayList<>();
 
@@ -96,7 +96,7 @@ public class DistrictService {
     }
 
     // 5. District By Lang (Native query)
-    public List<DistrictResponseDTO> getDistrictByLang2(LanguageEnum lang) {
+    public List<DistrictResponseDTO> getDistrictByLang2(Language lang) {
 
         List<DistrictResponseDTO> districtLangDtoList = new ArrayList<>();
 

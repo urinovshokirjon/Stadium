@@ -56,7 +56,7 @@ public class DistrictController {
 
     // 5. District By Lang
     @GetMapping("/lang")
-    public ResponseEntity<List<DistrictResponseDTO>> getDistrictByLang2(@RequestHeader(value = "Accept-Language", defaultValue = "UZ") LanguageEnum lang) {
+    public ResponseEntity<List<DistrictResponseDTO>> getDistrictByLang2(@RequestHeader(value = "Accept-Language", defaultValue = "UZ") Language lang) {
         List<DistrictResponseDTO> regionLangDtoList = regionService.getDistrictByLang(lang);
         return ResponseEntity.status(HttpStatus.OK).body(regionLangDtoList);
     }
