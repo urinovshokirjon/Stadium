@@ -11,10 +11,10 @@ Content-Type: application/json
 }
 
 ### Profile login
-POST http://localhost:8080/auth/login
+POST http://localhost:8081/auth/mobile/client/v1/account/login
 Content-Type: application/json
 
 {
-  "username": "+998941785150",
+  "username": "+998945022147",
   "password": "12345"
 }

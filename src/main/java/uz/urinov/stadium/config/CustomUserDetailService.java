@@ -5,8 +5,8 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-import uz.urinov.stadium.Prifile.ProfileEntity;
-import uz.urinov.stadium.Prifile.ProfileRepository;
+import uz.urinov.stadium.Profile.entity.ProfileEntity;
+import uz.urinov.stadium.Profile.repository.ProfileRepository;
 
 import java.util.Optional;
 

@@ -2,8 +2,8 @@ package uz.urinov.stadium.util;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
-import uz.urinov.stadium.Prifile.ProfileEntity;
-import uz.urinov.stadium.Prifile.ProfileRole;
+import uz.urinov.stadium.Profile.entity.ProfileEntity;
+import uz.urinov.stadium.Profile.enums.ProfileRole;
 import uz.urinov.stadium.config.CustomUserDetail;
 import uz.urinov.stadium.exp.AppForbiddenException;
 

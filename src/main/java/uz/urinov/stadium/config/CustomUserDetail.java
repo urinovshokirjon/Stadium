@@ -3,8 +3,8 @@ package uz.urinov.stadium.config;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import uz.urinov.stadium.Prifile.ProfileEntity;
-import uz.urinov.stadium.Prifile.ProfileStatus;
+import uz.urinov.stadium.Profile.entity.ProfileEntity;
+import uz.urinov.stadium.Profile.enums.ProfileStatus;
 
 
 import java.util.Collection;

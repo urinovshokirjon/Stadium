@@ -1,0 +1,10 @@
+POST http://localhost:8080/attach/upload
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MjMxODMyODAsImlkIjoiOGNiMWViOGUtYmQyZS00NDEzLWI0ZDEtYWRiMzUyNTViMTIxIiwidXNlcm5hbWUiOiIrOTk4OTQ1MDIyMTQ3Iiwicm9sZSI6IlJPTEVfQURNSU4iLCJyZWZyZXNoVG9rZW4iOmZhbHNlLCJleHAiOjE3MjMyNjk2ODAsImlzcyI6IlN0YWRpdW0ifQ.7V5oVcGqMjpNOoMxj4pGCQadB2fr0V2Z7HpZfyJa1POCOAmU1Lqtyb4TvsdEexMHs1Rgteec2hqZVGsyh9GktA
+Content-Type: multipart/form-data; boundary=WebAppBoundary
+
+--WebAppBoundary
+Content-Disposition: form-data; name="file"; filename="Test.png"
+
+< C:\Users\Urinov Shokirjon\Desktop\Test.png
+
+

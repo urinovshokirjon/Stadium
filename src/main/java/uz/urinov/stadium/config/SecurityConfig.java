@@ -59,7 +59,7 @@ public class SecurityConfig {
         http
                 .authorizeHttpRequests(authorizationManagerRequestMatcherRegistry -> {
                     authorizationManagerRequestMatcherRegistry
-                            .requestMatchers("/auth/**").permitAll()
+                            .requestMatchers("/auth/mobile/client/v1/account/**").permitAll()
                             .requestMatchers("/v3/api-docs/**","/swagger-ui/**").permitAll()
                             .requestMatchers("/category/adm/**").hasRole("ADMIN")
                             .requestMatchers("/category/lang").permitAll()

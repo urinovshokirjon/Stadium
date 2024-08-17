@@ -38,6 +38,10 @@ public class JwtTokenFilter extends OncePerRequestFilter {
             final String token = header.substring(7).trim();
             JwtDTO jwtDTO = JWTUtil.decode(token);
 
+            if (jwtDTO.isRefreshToken()) {
+                throw new JwtException("Refresh token bilan dasturga kirib bo'lmaydi");
+            }
+
             String userName = jwtDTO.getUsername();
 
             UserDetails userDetails = customUserDetailService.loadUserByUsername(userName);

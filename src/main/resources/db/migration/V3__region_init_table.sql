@@ -13,3 +13,4 @@ INSERT INTO region (id,order_number,name_uz, name_ru, name_en,visible,create_dat
                                                    (12,12,'Samarqand viloyati', 'Самаркандская область', 'Samarkand region',true, now()),
                                                    (13,13,'Sirdaryo viloyati', 'Сырдарьинская область', 'Syrdarya region',true, now()),
                                                    (14,14,'Surxondaryo viloyati', 'Сурхандарьинская область', 'Surkhandarya region',true, now());
+
