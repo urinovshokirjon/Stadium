@@ -68,7 +68,7 @@ public class RegionService {
     }
 
     // 5. Region By Lang
-    public List<RegionResponseDTO> getRegionByLang(LanguageEnum lang) {
+    public List<RegionResponseDTO> getRegionByLang(Language lang) {
 
         List<RegionResponseDTO> regionLangDtoList = new ArrayList<>();
 
@@ -89,7 +89,7 @@ public class RegionService {
     }
 
     // 5. Region By Lang (Native query)
-    public List<RegionResponseDTO> getRegionByLang2(LanguageEnum lang) {
+    public List<RegionResponseDTO> getRegionByLang2(Language lang) {
 
         List<RegionResponseDTO> regionLangDtoList = new ArrayList<>();
 

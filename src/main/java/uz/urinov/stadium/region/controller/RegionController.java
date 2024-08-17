@@ -56,7 +56,7 @@ public class RegionController {
 
     // 5. Region By Lang
     @GetMapping("/lang")
-    public ResponseEntity<List<RegionResponseDTO>> getRegionByLang2(@RequestHeader(value = "Accept-Language",defaultValue = "UZ") LanguageEnum lang) {
+    public ResponseEntity<List<RegionResponseDTO>> getRegionByLang2(@RequestHeader(value = "Accept-Language",defaultValue = "UZ") Language lang) {
         List<RegionResponseDTO> regionLangDtoList=regionService.getRegionByLang(lang);
         return ResponseEntity.status(HttpStatus.OK).body(regionLangDtoList);
     }
