@@ -64,6 +64,7 @@ public class SecurityConfig {
                             .requestMatchers("/category/adm/**").hasRole("ADMIN")
                             .requestMatchers("/category/lang").permitAll()
                             .requestMatchers("/region/adm/**").hasRole("ADMIN")
+                            .requestMatchers("/field-type/adm/**").hasRole("ADMIN")
                             .requestMatchers("/region/lang").permitAll()
 
 

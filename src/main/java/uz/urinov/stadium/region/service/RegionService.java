@@ -9,7 +9,6 @@ import uz.urinov.stadium.exp.AppBadException;
 import uz.urinov.stadium.region.dto.RegionCreateDTO;
 import uz.urinov.stadium.region.dto.RegionResponseDTO;
 import uz.urinov.stadium.region.entity.RegionEntity;
-import uz.urinov.stadium.region.mapper.RegionMapper;
 import uz.urinov.stadium.region.repository.RegionRepository;
 import uz.urinov.stadium.util.Result;
 import java.util.ArrayList;
@@ -25,25 +24,25 @@ public class RegionService {
     private ResourceBundleMessageSource rbms;
 
     // 1. Region create (ADMIN)
-    public RegionResponseDTO createRegion(RegionCreateDTO createDTO) {
+    public Result createRegion(RegionCreateDTO createDTO, Language lang) {
         RegionEntity entity = new RegionEntity();
-        entity.setOrderNumber(createDTO.getOrderNumber());
         entity.setNameUz(createDTO.getNameUz());
-        entity.setNameRu(createDTO.getNameRu());
         entity.setNameEn(createDTO.getNameEn());
-
+        entity.setNameRu(createDTO.getNameRu());
+        entity.setNameKr(createDTO.getNameKr());
         regionRepository.save(entity);
-        return toDTO(entity);
+        String message=rbms.getMessage("created",null, new Locale(lang.name()));
+        return new Result("Region "+message,true);
     }
 
     // 2. Region update (ADMIN)
     public Result updateRegion(RegionCreateDTO regionDto, int id,Language lang) {
       RegionEntity regionEntity=getRegionEntityById(id,lang);
-      regionEntity.setOrderNumber(regionDto.getOrderNumber());
       regionEntity.setNameUz(regionDto.getNameUz());
-      regionEntity.setNameRu(regionDto.getNameRu());
-      regionEntity.setNameEn(regionDto.getNameEn());
-      regionRepository.save(regionEntity);
+        regionEntity.setNameEn(regionDto.getNameEn());
+        regionEntity.setNameRu(regionDto.getNameRu());
+        regionEntity.setNameKr(regionDto.getNameKr());
+        regionRepository.save(regionEntity);
         String message=rbms.getMessage("changed",null, new Locale(lang.name()));
       return new Result("Region"+message,true);
     }
@@ -64,7 +63,7 @@ public class RegionService {
         RegionEntity regionEntity = getRegionEntityById(id,lang);
         regionRepository.delete(regionEntity);
         String message=rbms.getMessage("deleted",null, new Locale(lang.name()));
-        return new Result("Region"+message,true);
+        return new Result("Region "+message,true);
     }
 
     // 5. Region By Lang
@@ -80,43 +79,14 @@ public class RegionService {
             regionLangDto.setId(regionEntity.getId());
             switch (lang) {
                 case UZ -> regionLangDto.setName(regionEntity.getNameUz());
-                case RU -> regionLangDto.setName(regionEntity.getNameRu());
                 case EN -> regionLangDto.setName(regionEntity.getNameEn());
+                case RU -> regionLangDto.setName(regionEntity.getNameRu());
+                case KR -> regionLangDto.setName(regionEntity.getNameKr());
             }
             regionLangDtoList.add(regionLangDto);
         }
         return regionLangDtoList;
     }
-
-    // 5. Region By Lang (Native query)
-    public List<RegionResponseDTO> getRegionByLang2(Language lang) {
-
-        List<RegionResponseDTO> regionLangDtoList = new ArrayList<>();
-
-        List<RegionMapper> allByVisibleTrue = regionRepository.findAll(lang.name());
-
-        for (RegionMapper regionMapper : allByVisibleTrue) {
-            RegionResponseDTO regionLangDto = new RegionResponseDTO();
-            regionLangDto.setId(regionMapper.getId());
-            regionLangDto.setName(regionMapper.getName());
-            regionLangDtoList.add(regionLangDto);
-        }
-        return regionLangDtoList;
-    }
-
-
-    public RegionResponseDTO getRegion(Integer id, Language lang) {
-        RegionEntity region = getRegionEntityById(id,lang);
-        RegionResponseDTO dto = new RegionResponseDTO();
-        dto.setId(region.getId());
-        switch (lang) {
-            case UZ -> dto.setName(region.getNameUz());
-            case RU -> dto.setName(region.getNameRu());
-            default -> dto.setName(region.getNameEn());
-        }
-        return dto;
-    }
-
 
 
     public RegionResponseDTO toDTO(RegionEntity entity){
@@ -125,7 +95,7 @@ public class RegionService {
         dto.setNameUz(entity.getNameUz());
         dto.setNameEn(entity.getNameEn());
         dto.setNameRu(entity.getNameRu());
-        dto.setOrderNumber(entity.getOrderNumber());
+        dto.setNameKr(entity.getNameKr());
         dto.setCreateDate(entity.getCreateDate());
         return dto;
     }

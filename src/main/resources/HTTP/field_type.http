@@ -1,0 +1,50 @@
+###  1. Create fieldType (ADMIN)
+POST http://localhost:8081/field-type/adm/create
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MjM5NjEyOTgsImlkIjoiOGNiMWViOGUtYmQyZS00NDEzLWI0ZDEtYWRiMzUyNTViMTIxIiwidXNlcm5hbWUiOiIrOTk4OTQ1MDIyMTQ3Iiwicm9sZSI6IlJPTEVfQURNSU4iLCJyZWZyZXNoVG9rZW4iOmZhbHNlLCJleHAiOjE3MjQwNDc2OTgsImlzcyI6IlN0YWRpdW0ifQ.AGv03s4X3eazjnIKLhFWNEyxeno-zSXBSydtUV-pxWvdsgkTDjq9FcCAuA00do-TZKlh6CV-dZJEFWuSdIjgxA
+Accept-Language: RU
+Content-Type: application/json
+
+{
+  "orderNumber": 3,
+  "nameUz": "Stol tennis ",
+  "nameRu": "Настольный теннис",
+  "nameEn": "Table tennis"
+}
+
+<> 2024-08-18T115601.201.json
+<> 2024-08-18T115357.201.json
+<> 2024-08-18T115035.201.json
+
+###  2. Update fieldType (ADMIN)
+PUT http://localhost:8081/field-type/adm/update/1
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MjM5NjEyOTgsImlkIjoiOGNiMWViOGUtYmQyZS00NDEzLWI0ZDEtYWRiMzUyNTViMTIxIiwidXNlcm5hbWUiOiIrOTk4OTQ1MDIyMTQ3Iiwicm9sZSI6IlJPTEVfQURNSU4iLCJyZWZyZXNoVG9rZW4iOmZhbHNlLCJleHAiOjE3MjQwNDc2OTgsImlzcyI6IlN0YWRpdW0ifQ.AGv03s4X3eazjnIKLhFWNEyxeno-zSXBSydtUV-pxWvdsgkTDjq9FcCAuA00do-TZKlh6CV-dZJEFWuSdIjgxA
+Accept-Language: EN
+Content-Type: application/json
+
+{
+  "orderNumber": 1,
+  "nameUz": "Fudbol",
+  "nameRu": "Футбол",
+  "nameEn": "Football"
+}
+
+<> 2024-08-18T115144.200.json
+
+###  3. FieldType list (ADMIN)
+GET http://localhost:8081/field-type/adm/list
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MjM5NjEyOTgsImlkIjoiOGNiMWViOGUtYmQyZS00NDEzLWI0ZDEtYWRiMzUyNTViMTIxIiwidXNlcm5hbWUiOiIrOTk4OTQ1MDIyMTQ3Iiwicm9sZSI6IlJPTEVfQURNSU4iLCJyZWZyZXNoVG9rZW4iOmZhbHNlLCJleHAiOjE3MjQwNDc2OTgsImlzcyI6IlN0YWRpdW0ifQ.AGv03s4X3eazjnIKLhFWNEyxeno-zSXBSydtUV-pxWvdsgkTDjq9FcCAuA00do-TZKlh6CV-dZJEFWuSdIjgxA
+
+<> 2024-08-18T115724.200.json
+<> 2024-08-18T115632.200.json
+
+###  4. Delete fieldType (ADMIN)
+DELETE http://localhost:8081/field-type/adm/delete/2
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MjM5NjEyOTgsImlkIjoiOGNiMWViOGUtYmQyZS00NDEzLWI0ZDEtYWRiMzUyNTViMTIxIiwidXNlcm5hbWUiOiIrOTk4OTQ1MDIyMTQ3Iiwicm9sZSI6IlJPTEVfQURNSU4iLCJyZWZyZXNoVG9rZW4iOmZhbHNlLCJleHAiOjE3MjQwNDc2OTgsImlzcyI6IlN0YWRpdW0ifQ.AGv03s4X3eazjnIKLhFWNEyxeno-zSXBSydtUV-pxWvdsgkTDjq9FcCAuA00do-TZKlh6CV-dZJEFWuSdIjgxA
+Accept-Language: EN
+
+<> 2024-08-18T115717.200.json
+
+###  5. FieldType By Lang
+GET http://localhost:8081/field-type/lang
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MjM5NjEyOTgsImlkIjoiOGNiMWViOGUtYmQyZS00NDEzLWI0ZDEtYWRiMzUyNTViMTIxIiwidXNlcm5hbWUiOiIrOTk4OTQ1MDIyMTQ3Iiwicm9sZSI6IlJPTEVfQURNSU4iLCJyZWZyZXNoVG9rZW4iOmZhbHNlLCJleHAiOjE3MjQwNDc2OTgsImlzcyI6IlN0YWRpdW0ifQ.AGv03s4X3eazjnIKLhFWNEyxeno-zSXBSydtUV-pxWvdsgkTDjq9FcCAuA00do-TZKlh6CV-dZJEFWuSdIjgxA
+Accept-Language: UZ

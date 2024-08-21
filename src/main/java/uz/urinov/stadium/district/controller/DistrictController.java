@@ -24,10 +24,10 @@ public class DistrictController {
 
     // 1. Region create (ADMIN)
     @PostMapping("/adm/create")
-    public ResponseEntity<DistrictResponseDTO> createDistrict(@Valid @RequestBody DistrictCreateDTO regionDto,
+    public ResponseEntity<Result> createDistrict(@Valid @RequestBody DistrictCreateDTO regionDto,
                                                               @RequestHeader(value = "Accept-Language", defaultValue = "UZ") Language lang) {
-        DistrictResponseDTO regionResponseDTO = regionService.createDistrict(regionDto, lang);
-        return ResponseEntity.ok(regionResponseDTO);
+        Result result = regionService.createDistrict(regionDto, lang);
+        return ResponseEntity.status(result.isSuccess() ? HttpStatus.CREATED : HttpStatus.CONFLICT).body(result);
     }
 
     // 2. District update (ADMIN)

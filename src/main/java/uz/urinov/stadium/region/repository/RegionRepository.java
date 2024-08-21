@@ -11,7 +11,7 @@ import java.util.List;
 public interface RegionRepository extends CrudRepository<RegionEntity, Integer> {
 
     // 3. Region list
-    @Query("SELECT r FROM RegionEntity r where r.visible = true order by r.orderNumber desc")
+    @Query("SELECT r FROM RegionEntity r where r.visible = true order by r.id")
     List<RegionEntity> findAllVisible();
 
     // 5. Region By Lang

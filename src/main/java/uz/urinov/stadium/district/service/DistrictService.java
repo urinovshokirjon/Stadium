@@ -28,17 +28,20 @@ public class DistrictService {
     private ResourceBundleMessageSource rbms;
 
     // 1. District create (ADMIN)
-    public DistrictResponseDTO createDistrict(DistrictCreateDTO createDTO, Language lang) {
+    public Result createDistrict(DistrictCreateDTO createDTO, Language lang) {
 
         regionService.getRegionEntityById(createDTO.getRegionId(), lang);
         DistrictEntity entity = new DistrictEntity();
         entity.setRegionId(createDTO.getRegionId());
         entity.setNameUz(createDTO.getNameUz());
-        entity.setNameRu(createDTO.getNameRu());
         entity.setNameEn(createDTO.getNameEn());
+        entity.setNameRu(createDTO.getNameRu());
+        entity.setNameKr(createDTO.getNameKr());
+        entity.setCounty(createDTO.getCounty());
 
         districtRepository.save(entity);
-        return toDTO(entity);
+        String message=rbms.getMessage("created",null, new Locale(lang.name()));
+        return new Result("District "+message,true);
     }
 
     // 2. District update (ADMIN)
@@ -48,8 +51,10 @@ public class DistrictService {
         DistrictEntity districtEntity = getDistrictEntityById(id, lang);
 
         districtEntity.setNameUz(districtDto.getNameUz());
-        districtEntity.setNameRu(districtDto.getNameRu());
         districtEntity.setNameEn(districtDto.getNameEn());
+        districtEntity.setNameRu(districtDto.getNameRu());
+        districtEntity.setNameKr(districtDto.getNameKr());
+        districtEntity.setCounty(districtDto.getCounty());
         districtRepository.save(districtEntity);
         String message = rbms.getMessage("changed", null, new Locale(lang.name()));
         return new Result("District " + message, true);
@@ -87,8 +92,9 @@ public class DistrictService {
             districtLangDto.setId(districtEntity.getId());
             switch (lang) {
                 case UZ -> districtLangDto.setName(districtEntity.getNameUz());
-                case RU -> districtLangDto.setName(districtEntity.getNameRu());
                 case EN -> districtLangDto.setName(districtEntity.getNameEn());
+                case RU -> districtLangDto.setName(districtEntity.getNameRu());
+                case KR -> districtLangDto.setName(districtEntity.getNameKr());
             }
             districtLangDtoList.add(districtLangDto);
         }
@@ -117,12 +123,14 @@ public class DistrictService {
         regionService.getRegionEntityById(regionId, lang);
         List<DistrictResponseDTO> districtRegionDtoList = new ArrayList<>();
 
-        for (DistrictMapper districtMapper : districtRepository.getDistrictRegionId(lang.name(),regionId)) {
+        List<DistrictMapper> allByVisibleTrue = districtRepository.getDistrictRegionId(lang.name(),regionId);
+
+        for (DistrictMapper districtMapper : allByVisibleTrue) {
             DistrictResponseDTO districtLangDto = new DistrictResponseDTO();
             districtLangDto.setId(districtMapper.getId());
             districtLangDto.setRegionId(districtMapper.getRegionId());
             districtLangDto.setName(districtMapper.getName());
-            districtRegionDtoList.add(districtLangDto);
+             districtRegionDtoList.add(districtLangDto);
         }
         return districtRegionDtoList;
     }
@@ -134,6 +142,7 @@ public class DistrictService {
         dto.setNameUz(entity.getNameUz());
         dto.setNameEn(entity.getNameEn());
         dto.setNameRu(entity.getNameRu());
+        dto.setNameKr(entity.getNameKr());
         dto.setCreateDate(entity.getCreateDate());
         return dto;
     }

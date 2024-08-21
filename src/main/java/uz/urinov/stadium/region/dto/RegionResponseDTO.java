@@ -11,13 +11,13 @@ public class RegionResponseDTO {
 
     private Integer id;
 
-    private Integer orderNumber;
-
     private String nameUz;
+
+    private String nameEn;
 
     private String nameRu;
 
-    private String nameEn;
+    private String nameKr;
 
     private String name;
 

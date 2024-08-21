@@ -1,11 +1,13 @@
-package uz.urinov.stadium.entity;
+package uz.urinov.stadium.stadium.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 import uz.urinov.stadium.Profile.entity.ProfileEntity;
+import uz.urinov.stadium.attach.entity.AttachEntity;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Setter
 @Getter
@@ -28,6 +30,17 @@ public class FieldEntity {
     @JoinColumn(name = "owner_id",insertable = false, updatable = false)
     private ProfileEntity owner;
 
+    @Column(name = "fieldType_id")
+    private Integer fieldTypeId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "fieldType_id",insertable = false, updatable = false)
+    private FieldTypeEntity fieldType;
+
+    @Column(name = "stadium_id")
+    private Integer stadiumId;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "stadium_id",insertable = false, updatable = false)
+    private StadiumEntity stadium;
 
     @Column(name = "visible")
     private Boolean visible=Boolean.TRUE;

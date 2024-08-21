@@ -1,4 +1,4 @@
-package uz.urinov.stadium.region.entity;
+package uz.urinov.stadium.stadium.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -9,13 +9,14 @@ import java.time.LocalDate;
 @Setter
 @Getter
 @Entity
-@Table(name = "region")
-public class RegionEntity {
-
-    // id, name_uz, name_en, name_ru, name_kr,
+@Table(name = "field_type")
+public class FieldTypeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
+
+    @Column(name = "order_number",unique = true)
+    private Integer orderNumber;
 
     @Column(name = "name_uz", length = 50, unique = true)
     private String nameUz;
@@ -32,7 +33,7 @@ public class RegionEntity {
     @Column(name = "visible")
     private Boolean visible=Boolean.TRUE;
 
-    @Column(name = "created_date")
+    @Column(name = "create_date")
     private LocalDate createDate=LocalDate.now();
 
 }

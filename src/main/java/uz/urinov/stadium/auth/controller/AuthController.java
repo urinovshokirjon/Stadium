@@ -40,22 +40,25 @@ public class AuthController {
 
     // Profile verifySms
     @PostMapping("/verifySms")
-    public ResponseEntity<Result> verifySms(@Valid @RequestBody VerifyDto dto) {
-        Result result = authService.verifySms(dto);
+    public ResponseEntity<Result> verifySms(@Valid @RequestBody VerifyDto dto,
+                                            @RequestHeader(value = "Accept-Language",defaultValue = "UZ") Language lang) {
+        Result result = authService.verifySms(dto,lang);
         return ResponseEntity.status(result.isSuccess() ? 200 : 409).body(result);
     }
 
     // Resent sms code
     @PostMapping("/verification/resendSma/{phone}")
-    public ResponseEntity<Result> verificationResendSms(@PathVariable String phone) {
-        Result result = authService.verificationResendSms(phone);
+    public ResponseEntity<Result> verificationResendSms(@PathVariable String phone,
+                                                        @RequestHeader(value = "Accept-Language",defaultValue = "UZ") Language lang) {
+        Result result = authService.verificationResendSms(phone,lang);
         return ResponseEntity.status(result.isSuccess() ? 200 : 409).body(result);
     }
 
     // Profile login
     @PostMapping("/login")
-    public HttpEntity<ProfileResponseDTO> loginUser(@RequestBody LoginDto loginDto) {
-        ProfileResponseDTO result = authService.loginProfile(loginDto);
+    public HttpEntity<ProfileResponseDTO> loginUser(@RequestBody LoginDto loginDto,
+                                                    @RequestHeader(value = "Accept-Language",defaultValue = "UZ") Language lang) {
+         ProfileResponseDTO result = authService.loginProfile(loginDto,lang);
         return ResponseEntity.ok().body(result);
     }
     // Profile login
@@ -67,15 +70,17 @@ public class AuthController {
 
     // Forget User password Request
     @PostMapping("/forget")
-    public ResponseEntity<Result> forget(@Valid @RequestBody CheckUserPhoneRequest dto) {
-        Result result = authService.forget(dto);
+    public ResponseEntity<Result> forget(@Valid @RequestBody CheckUserPhoneRequest dto,
+                                         @RequestHeader(value = "Accept-Language",defaultValue = "UZ") Language lang) {
+        Result result = authService.forget(dto,lang);
         return ResponseEntity.status(result.isSuccess() ? 200 : 409).body(result);
     }
 
     // Forget User password update Request
     @PostMapping("/forget-update-password")
-    public ResponseEntity<Result> forgetUpdatePassword(@Valid @RequestBody ForgetDto dto) {
-        Result result = authService.forgetUpdatePassword(dto);
+    public ResponseEntity<Result> forgetUpdatePassword(@Valid @RequestBody ForgetDto dto,
+                                                       @RequestHeader(value = "Accept-Language",defaultValue = "UZ") Language lang) {
+        Result result = authService.forgetUpdatePassword(dto,lang);
         return ResponseEntity.status(result.isSuccess() ? 200 : 409).body(result);
     }
 

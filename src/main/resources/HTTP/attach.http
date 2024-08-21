@@ -1,10 +1,10 @@
-POST http://localhost:8080/attach/upload
-Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MjMxODMyODAsImlkIjoiOGNiMWViOGUtYmQyZS00NDEzLWI0ZDEtYWRiMzUyNTViMTIxIiwidXNlcm5hbWUiOiIrOTk4OTQ1MDIyMTQ3Iiwicm9sZSI6IlJPTEVfQURNSU4iLCJyZWZyZXNoVG9rZW4iOmZhbHNlLCJleHAiOjE3MjMyNjk2ODAsImlzcyI6IlN0YWRpdW0ifQ.7V5oVcGqMjpNOoMxj4pGCQadB2fr0V2Z7HpZfyJa1POCOAmU1Lqtyb4TvsdEexMHs1Rgteec2hqZVGsyh9GktA
+POST http://localhost:8081/attach/upload
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MjQxMzU1NjksImlkIjoiOGNiMWViOGUtYmQyZS00NDEzLWI0ZDEtYWRiMzUyNTViMTIxIiwidXNlcm5hbWUiOiIrOTk4OTQ1MDIyMTQ3Iiwicm9sZSI6IlJPTEVfQURNSU4iLCJyZWZyZXNoVG9rZW4iOmZhbHNlLCJleHAiOjE3MjQyMjE5NjksImlzcyI6IlN0YWRpdW0ifQ.0bEsLzaH1s52LrZmaEWRqBM0p7olTRQ_WQ5IP7d62iqOUE2zJxj4VaJQGg0yb5FugEXxs_X4uahYItqY2YHi3Q
 Content-Type: multipart/form-data; boundary=WebAppBoundary
 
 --WebAppBoundary
-Content-Disposition: form-data; name="file"; filename="Test.png"
+Content-Disposition: form-data; name="file"; filename="Dala.jpg"
 
-< C:\Users\Urinov Shokirjon\Desktop\Test.png
+< C:\Users\Urinov Shokirjon\Desktop\rasmlar\Dala.jpg
 
 

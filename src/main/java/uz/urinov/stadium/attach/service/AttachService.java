@@ -2,6 +2,7 @@ package uz.urinov.stadium.attach.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
@@ -9,6 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 import uz.urinov.stadium.attach.dto.AttachDTO;
 import uz.urinov.stadium.attach.entity.AttachEntity;
 import uz.urinov.stadium.attach.repository.AttachRepository;
+import uz.urinov.stadium.auth.enums.Language;
 import uz.urinov.stadium.exp.AppBadException;
 
 import java.io.File;
@@ -19,6 +21,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Calendar;
+import java.util.Locale;
 import java.util.UUID;
 
 @Service
@@ -32,6 +35,7 @@ public class AttachService {
     private String serverUrl;
 
     private final AttachRepository attachRepository;
+    private final ResourceBundleMessageSource rbms;
 
     // Attachni saqlash;
     public AttachDTO  saveAttach(MultipartFile file) {
@@ -69,11 +73,11 @@ public class AttachService {
     }
 
     // imag ni ochish
-    public byte[] openGeneral(String attachId) {
+    public byte[] openGeneral(String attachId,Language lang) {
 
         byte[] data;
         try {
-            AttachEntity entity = get(attachId);
+            AttachEntity entity = get(attachId,lang);
             String path = entity.getPath() + "/" +attachId;
             Path file = Paths.get(attachUrl + path);
             data = Files.readAllBytes(file);
@@ -87,9 +91,9 @@ public class AttachService {
     }
 
     // imag ni  yuklab olish
-    public Resource download(String attachId) {
+    public Resource download(String attachId,Language lang) {
         try {
-            AttachEntity entity = get(attachId);
+            AttachEntity entity = get(attachId,lang);
             String path = entity.getPath() + "/" +attachId;
             Path file = Paths.get(attachUrl+path);
             Resource resource = new UrlResource(file.toUri());
@@ -97,7 +101,8 @@ public class AttachService {
             if (resource.exists() || resource.isReadable()){
                 return resource;
             }else {
-                throw new RuntimeException("Could not read the file!");
+                String response=rbms.getMessage("not.read.the.file",null, new Locale(lang.name()));
+                throw new RuntimeException(response);
             }
 
         }catch (MalformedURLException e){
@@ -134,9 +139,10 @@ public class AttachService {
 
     }
 
-    public AttachEntity get(String id) {
+    public AttachEntity get(String id, Language lang) {
         return attachRepository.findById(id).orElseThrow(() -> {
-            throw new AppBadException("Attach not found");
+            String response=rbms.getMessage("item.not.found",null, new Locale(lang.name()));
+            throw new AppBadException(response);
         });
     }
 

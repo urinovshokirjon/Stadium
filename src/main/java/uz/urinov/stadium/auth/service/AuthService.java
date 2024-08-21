@@ -13,7 +13,6 @@ import uz.urinov.stadium.Profile.dto.ProfileResponseDTO;
 import uz.urinov.stadium.Profile.entity.ProfileEntity;
 import uz.urinov.stadium.Profile.enums.ProfileStatus;
 import uz.urinov.stadium.Profile.repository.ProfileRepository;
-import uz.urinov.stadium.config.RecourseBundleConfig;
 import uz.urinov.stadium.exp.AppBadException;
 import uz.urinov.stadium.sms.entity.SmsHistoryEntity;
 import uz.urinov.stadium.sms.repository.SmsHistoryRepository;
@@ -64,7 +63,7 @@ public class AuthService {
         if (optionalProfile.isPresent()) {
             log.warn("Ismi name = {}, phone = {}", dto.getName(), dto.getPhone());
             String message=rbms.getMessage("phone.exists",null, new Locale(lang.name()));
-            return new Result("Bunday telefon  oldin ro'yxatga olingan", false);
+            return new Result(message, false);
         }
         ProfileEntity entity = new ProfileEntity();
         entity.setName(dto.getName());
@@ -81,45 +80,51 @@ public class AuthService {
         String message = RandomUtil.getRandomSmsCode();
 //        String smsCode = "Bu Eskiz dan test";    // TODO: Phone ga code ketadigan qilish kerak;
         smsService.sendSms(dto.getPhone(), message);
-        return new Result("Muvaffaqiyatli ro'yxatdan o'tdingiz. Akkounting ACTIVE qilish uchun telefoningizga borgan sms code tasdiqlang", true);
+        String response=rbms.getMessage("active.do",null, new Locale(lang.name()));
+        return new Result(response, true);
 
     }
 
     // Profile verifySms
-    public Result verifySms(VerifyDto dto) {
+    public Result verifySms(VerifyDto dto, Language lang) {
         Optional<SmsHistoryEntity> bySmsCodeAndPhone = smsHistoryRepository.findBySmsCodeAndPhone(dto.getSmsCode(), dto.getPhone());
         if (bySmsCodeAndPhone.isEmpty()) {
-            return new Result("Telefon phone yoki smsCode noto'g'ri", false);
+            String response=rbms.getMessage("password.wrong",null, new Locale(lang.name()));
+            return new Result(response, false);
         }
-        ProfileEntity entity = checkPhone(dto.getPhone());
+        ProfileEntity entity = checkPhone(dto.getPhone(),lang);
         entity.setStatus(ProfileStatus.ACTIVE);
         profileRepository.save(entity);
-        return new Result("Profile ACTIVE holatga o'tdi", true);
+        String response=rbms.getMessage("active",null, new Locale(lang.name()));
+        return new Result(entity.getName()+" "+response, true);
     }
 
     // Resent sms code
-    public Result verificationResendSms(String phone) {
+    public Result verificationResendSms(String phone,Language lang) {
 
-        ProfileEntity profileEntity = checkPhone(phone);
+        ProfileEntity profileEntity = checkPhone(phone,lang);
 
         if (!profileEntity.getVisible() || !profileEntity.getStatus().equals(ProfileStatus.INACTIVE)) {
-            throw new AppBadException("Registration not completed");
+            String response=rbms.getMessage("registration.not",null, new Locale(lang.name()));
+            throw new AppBadException(response);
         }
         smsHistoryService.checkEmailLimit(profileEntity.getPhone());
         String smsCode = RandomUtil.getRandomSmsCode();
 //        String smsCode = "Bu Eskiz dan test";    // TODO: Phone ga code ketadigan qilish kerak;
         smsService.sendSms(profileEntity.getPhone(), smsCode);
-        return new Result("To complete your registration please verify your phone.", true);
+        String response=rbms.getMessage("active.do",null, new Locale(lang.name()));
+        return new Result(response, true);
     }
 
 
     // Profile login
-    public ProfileResponseDTO loginProfile(LoginDto loginDto) {
+    public ProfileResponseDTO loginProfile(LoginDto loginDto,Language lang) {
         String password = MD5Util.getMD5(loginDto.getPassword());
         Optional<ProfileEntity> profileEntityOptional = profileRepository.findByPhoneAndPasswordAndVisibleTrueAndStatusActive(loginDto.getUsername(), password);
         if (profileEntityOptional.isEmpty()) {
             log.warn("Profile phone = {}, password = {},", loginDto.getUsername(), password);
-            throw new AppBadException("Profile phone or password is incorrect");
+            String response=rbms.getMessage("password.wrong",null, new Locale(lang.name()));
+            throw new AppBadException(response);
         }
         ProfileEntity profileEntity = profileEntityOptional.get();
         ProfileResponseDTO profileResponseDTO = new ProfileResponseDTO();
@@ -134,35 +139,39 @@ public class AuthService {
     }
 
     // ForgetUserPhoneRequest
-    public Result forget(CheckUserPhoneRequest dto) {
+    public Result forget(CheckUserPhoneRequest dto,Language lang) {
 
-        ProfileEntity profileEntity = checkPhone(dto.getPhone());
+        ProfileEntity profileEntity = checkPhone(dto.getPhone(),lang);
         log.info("Ismi name = {}, phone = {}", profileEntity.getName(), profileEntity.getPhone());
 
         // Sms yuborish methodini chaqiramiz;
         String message = RandomUtil.getRandomSmsCode();
 //        String smsCode = "Bu Eskiz dan test";    // TODO: Phone ga code ketadigan qilish kerak;
         smsService.sendSms(profileEntity.getPhone(), message);
-        return new Result("Muvaffaqiyatli ro'yxatdan o'tdingiz. Akkounting ACTIVE qilish uchun telefoningizga borgan sms code tasdiqlang", true);
+        String response=rbms.getMessage("active.do",null, new Locale(lang.name()));
+        return new Result(response, true);
     }
 
     // Forget User password update Request
-    public Result forgetUpdatePassword(ForgetDto dto) {
-        ProfileEntity profileEntity = checkPhone(dto.getPhone());
+    public Result forgetUpdatePassword(ForgetDto dto,Language lang) {
+        ProfileEntity profileEntity = checkPhone(dto.getPhone(),lang);
 
         Optional<SmsHistoryEntity> bySmsCodeAndPhone = smsHistoryRepository.findBySmsCodeAndPhone(dto.getSmsCode(), dto.getPhone());
         if (bySmsCodeAndPhone.isEmpty()) {
-            return new Result("Telefon phone yoki smsCode noto'g'ri", false);
+            String response=rbms.getMessage("message.or.phone.wrong",null, new Locale(lang.name()));
+            return new Result(response, false);
         }
         profileEntity.setPassword(MD5Util.getMD5(dto.getNewPassword()));
         profileRepository.save(profileEntity);
-        return new Result("Parolingizni esdan chiqarmang", true);
+        String response=rbms.getMessage("do.not.you.password",null, new Locale(lang.name()));
+        return new Result(response, true);
     }
 
-    public ProfileEntity checkPhone(String phone) {
+    public ProfileEntity checkPhone(String phone,Language lang) {
         return profileRepository.findByPhoneAndVisibleTrue(phone).orElseThrow(() -> {
             log.warn("Profile not found id : {}", phone);
-            throw new AppBadException("Bunday profile topilmadi");
+            String response=rbms.getMessage("item.not.found",null, new Locale(lang.name()));
+            throw new AppBadException(response);
         });
     }
 

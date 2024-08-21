@@ -1,17 +1,16 @@
-package uz.urinov.stadium.district.dto;
+package uz.urinov.stadium.stadium.dto;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Data;
 
 import java.time.LocalDate;
-
 @Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class DistrictResponseDTO {
+public class FieldTypeResponseDto {
 
     private Integer id;
 
-    private Integer regionId;
+    private Integer orderNumber;
 
     private String nameUz;
 
@@ -22,8 +21,6 @@ public class DistrictResponseDTO {
     private String nameKr;
 
     private String name;
-
-    private String country;
 
     private Boolean visible;
 

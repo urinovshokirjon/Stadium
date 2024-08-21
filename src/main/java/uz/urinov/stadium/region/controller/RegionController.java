@@ -25,9 +25,10 @@ public class RegionController {
 
     // 1. Region create (ADMIN)
 @PostMapping("/adm/create")
-    public ResponseEntity<RegionResponseDTO> createRegion(@Valid @RequestBody RegionCreateDTO regionDto) {
-        RegionResponseDTO regionResponseDTO = regionService.createRegion(regionDto);
-        return ResponseEntity.ok(regionResponseDTO);
+    public ResponseEntity<Result> createRegion(@Valid @RequestBody RegionCreateDTO regionDto,
+                                               @RequestHeader(value = "Accept-Language", defaultValue = "UZ") Language lang) {
+        Result result = regionService.createRegion(regionDto,lang);
+    return ResponseEntity.status(result.isSuccess()?HttpStatus.CREATED:HttpStatus.CONFLICT).body(result);
     }
 
     // 2. Region update (ADMIN)
