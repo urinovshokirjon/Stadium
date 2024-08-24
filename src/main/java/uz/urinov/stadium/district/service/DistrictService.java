@@ -135,6 +135,23 @@ public class DistrictService {
         return districtRegionDtoList;
     }
 
+    // 7. District id  By Lang
+    public DistrictResponseDTO getDistrictId(int districtId, Language lang) {
+        DistrictEntity entity = getDistrictEntityById(districtId, lang);
+        DistrictResponseDTO dto = new DistrictResponseDTO();
+        dto.setId(entity.getId());
+        dto.setRegionId(entity.getRegionId());
+        dto.setCountry(entity.getCounty());
+        switch (lang) {
+            case UZ -> dto.setName(entity.getNameUz());
+            case EN -> dto.setName(entity.getNameEn());
+            case RU -> dto.setName(entity.getNameRu());
+            case KR -> dto.setName(entity.getNameKr());
+        }
+
+        return dto;
+    }
+
 
     public DistrictResponseDTO toDTO(DistrictEntity entity) {
         DistrictResponseDTO dto = new DistrictResponseDTO();

@@ -1,0 +1,22 @@
+### Create
+POST http://localhost:8081/stadium/owr/create
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MjQzMDU1ODYsImlkIjoiOGNiMWViOGUtYmQyZS00NDEzLWI0ZDEtYWRiMzUyNTViMTIxIiwidXNlcm5hbWUiOiIrOTk4OTQ1MDIyMTQ3Iiwicm9sZSI6IlJPTEVfQURNSU4iLCJyZWZyZXNoVG9rZW4iOmZhbHNlLCJleHAiOjE3MjQzOTE5ODYsImlzcyI6IlN0YWRpdW0ifQ.-u9mbBof_MDkEGzXDAhiq9ammn0XAecnFQ6uizc59qfEaR2WlwfbmkOliRwf0pXzON7Pbr_wcEjTUKmcrNbIuQ
+Accept-Language: UZ
+Content-Type: application/json
+
+{
+  "lat":  40.3835,
+  "lon": 71.7820,
+  "description": "Farg'ona shahar Bozorni oldi, chimi eski usti yopilgan,dushlari bor likin ishlamaydi",
+  "districtId": 159,
+  "photoList": ["003de6ae-9bd5-4c2d-ae60-7b3f14cbe37e.jpg","0ec2145e-ffe9-4203-9704-4977cd7752e8.jpg","386a16a5-f40b-4b88-ad9b-c54a79188ba6.jpeg"]
+}
+
+### Lokatsiya bo'yiga eng yaqinlarini olish
+GET http://localhost:8081/stadium/closest-stadium-list?
+    page=1&
+    size=3&
+    lat=41.0600&
+    lon=72.500
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MjQzODUwMjgsImlkIjoiOGNiMWViOGUtYmQyZS00NDEzLWI0ZDEtYWRiMzUyNTViMTIxIiwidXNlcm5hbWUiOiIrOTk4OTQ1MDIyMTQ3Iiwicm9sZSI6IlJPTEVfQURNSU4iLCJyZWZyZXNoVG9rZW4iOmZhbHNlLCJleHAiOjE3MjQ0NzE0MjgsImlzcyI6IlN0YWRpdW0ifQ.HMCL7bAxZGqw79A3HfVN8M9543DFUTnvYd4-geww71kXQUQjZlhpyxRuGu_ladRg5ietqOIIvS09MEoOHfe0GA
+Accept-Language: RU

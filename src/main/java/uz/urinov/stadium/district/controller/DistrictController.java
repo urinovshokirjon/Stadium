@@ -69,5 +69,13 @@ public class DistrictController {
         return ResponseEntity.status(HttpStatus.OK).body(regionLangDtoList);
     }
 
+    // 7. District id  By Lang
+    @GetMapping("/district-lang/{id}")
+    public ResponseEntity<DistrictResponseDTO> getDistrictId(@RequestHeader(value = "Accept-Language", defaultValue = "UZ") Language lang,
+                                                                         @PathVariable("id") int districtId) {
+        DistrictResponseDTO regionLangDtoList = regionService.getDistrictId(districtId,lang);
+        return ResponseEntity.status(HttpStatus.OK).body(regionLangDtoList);
+    }
+
 
 }

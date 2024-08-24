@@ -5,6 +5,7 @@ import lombok.Getter;
 import lombok.Setter;
 import uz.urinov.stadium.Profile.entity.ProfileEntity;
 import uz.urinov.stadium.attach.entity.AttachEntity;
+import uz.urinov.stadium.stadium.enums.Status;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -24,6 +25,9 @@ public class FieldEntity {
     @Column(name = "description",columnDefinition = "text")
     private String description;
 
+    @Column(name = "average_rating")
+    private Double averageRating = 0D;
+
     @Column(name = "owner_id")
     private String ownerId;
     @ManyToOne(fetch = FetchType.LAZY)
@@ -41,6 +45,10 @@ public class FieldEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "stadium_id",insertable = false, updatable = false)
     private StadiumEntity stadium;
+
+    @Enumerated(EnumType.STRING)
+    private Status status = Status.ACTIVE;
+
 
     @Column(name = "visible")
     private Boolean visible=Boolean.TRUE;

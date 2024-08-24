@@ -16,16 +16,11 @@ import java.util.Locale;
 @Service
 @RequiredArgsConstructor
 public class StadiumAttachService {
-    @Autowired
-    private ResourceBundleMessageSource rbms;
+
     private final StadiumAttachRepository stadiumAttachRepository;
 
     public void stadiumAttachSave(List<String> attachList, Integer stadiumId, Language lang) {
-        boolean empty = attachList.isEmpty();
-        if (empty) {
-            String message = rbms.getMessage("image.not.available", null, new Locale(lang.name()));
-            throw new AppBadException(message);
-        }
+
         for (String attach : attachList) {
             StadiumAttachEntity entity=new StadiumAttachEntity();
             entity.setStadiumId(stadiumId);
@@ -35,5 +30,7 @@ public class StadiumAttachService {
         }
 
     }
+
+
 
 }

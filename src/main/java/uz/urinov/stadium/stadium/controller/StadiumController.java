@@ -1,5 +1,6 @@
 package uz.urinov.stadium.stadium.controller;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -13,6 +14,7 @@ import uz.urinov.stadium.util.Result;
 
 import java.util.List;
 
+@SecurityRequirement(name = "Authorization")
 @RequiredArgsConstructor
 @RestController
 @RequestMapping("/stadium")
@@ -46,14 +48,32 @@ public class StadiumController {
         return ResponseEntity.status(result.isSuccess() ? HttpStatus.OK : HttpStatus.CONFLICT).body(result);
     }
 
-    // 3. Region Stadium List stadium (ADMIN,OWNER)
-    @GetMapping("/region-stadium-list/{regionId}")
-    public ResponseEntity<List<StadiumResponseDto>> regionStadiumList(@PathVariable("regionId") int regionId,
-                                                @RequestHeader(value = "Accept-Language") Language lang) {
-
-        List<StadiumResponseDto> result = stadiumService.regionStadiumList(regionId, lang);
+    // 4. Region Stadium List stadium (ADMIN,OWNER)
+    @GetMapping("/region-id-stadium-list")
+    public ResponseEntity<List<StadiumResponseDto>> regionIdStadiumList(@RequestParam(defaultValue = "0") int page,
+                                                                        @RequestParam(defaultValue = "2") int size,
+                                                                        @RequestParam int regionId,
+                                                                        @RequestParam Double lat,
+                                                                        @RequestParam Double lon,
+                                                                        @RequestHeader(value = "Accept-Language") Language lang) {
+        List<StadiumResponseDto> result = stadiumService.regionStadiumList(regionId, lang, page - 1, size, lat, lon);
         return ResponseEntity.ok().body(result);
     }
+
+
+    // 5. Closest Stadium List stadium (eng yaqin)
+    @GetMapping("/closest-stadium-list")
+    public ResponseEntity<List<StadiumResponseDto>> closestStadiumList(@RequestParam(defaultValue = "0") int page,
+                                                                       @RequestParam(defaultValue = "2") int size,
+                                                                       @RequestParam Double lat,
+                                                                       @RequestParam Double lon,
+                                                                       @RequestHeader(value = "Accept-Language") Language lang) {
+        List<StadiumResponseDto> result = stadiumService.closestStadiumList(lang, page - 1, size, lat, lon);
+        return ResponseEntity.ok().body(result);
+    }
+
+
+    // 4.  Stadium List stadium lat, lon (User)
 
 
 //    // 3. Stadium list

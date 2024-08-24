@@ -10,13 +10,15 @@ import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class FieldResponseDto {
 
+    private Integer stadiumId;
+
     private Integer id;
 
     private String name;
 
-    private Integer stadiumId;
-
     private String description;
+
+    private Double rating;
 
     private List<String> photolist;
 

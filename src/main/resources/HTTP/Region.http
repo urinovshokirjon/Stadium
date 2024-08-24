@@ -24,8 +24,8 @@ Authorization: Bearer
 }
 
 ### 3. Region list
-GET http://localhost:8080/region/adm/list
-Authorization: Bearer
+GET http://localhost:8081/region/adm/list
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MjQyMTkyMzQsImlkIjoiOGNiMWViOGUtYmQyZS00NDEzLWI0ZDEtYWRiMzUyNTViMTIxIiwidXNlcm5hbWUiOiIrOTk4OTQ1MDIyMTQ3Iiwicm9sZSI6IlJPTEVfQURNSU4iLCJyZWZyZXNoVG9rZW4iOmZhbHNlLCJleHAiOjE3MjQzMDU2MzQsImlzcyI6IlN0YWRpdW0ifQ.uk7-NtHN2mR06noJ8IfXOMz8k6dtPrgroy6srF_aG8T5mkhQYlnOTCz7w-1OViJc-bPPARwRkR0MO3rPGhUF3A
 
 ### 4. Region delete
 DELETE http://localhost:8080/region/adm/delete/1

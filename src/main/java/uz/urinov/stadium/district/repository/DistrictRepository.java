@@ -38,6 +38,9 @@ public interface DistrictRepository extends CrudRepository<DistrictEntity, Integ
     List<DistrictMapper> getDistrictRegionId(@Param("lang") String lang, @Param("regionId") int regionId);
 
 
+    List<DistrictEntity> findByRegionId(Integer regionId);
+
+
 
 
 

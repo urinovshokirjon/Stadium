@@ -101,6 +101,20 @@ public class FieldTypeService {
         return dto;
     }
 
+    public FieldTypeResponseDto toFieldTypeLang(FieldTypeEntity entity,Language lang){
+        FieldTypeResponseDto dto = new FieldTypeResponseDto();
+        dto.setId(entity.getId());
+        dto.setOrderNumber(entity.getOrderNumber());
+        switch (lang){
+            case UZ->dto.setName(entity.getNameUz());
+            case EN->dto.setName(entity.getNameEn());
+            case RU->dto.setName(entity.getNameRu());
+            case KR->dto.setName(entity.getNameKr());
+        }
+        dto.setCreateDate(entity.getCreateDate());
+        return dto;
+    }
+
 
 
     public FieldTypeEntity getFieldTypeId(int id, Language lang) {

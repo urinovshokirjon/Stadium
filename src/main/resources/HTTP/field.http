@@ -1,0 +1,13 @@
+###
+POST http://localhost:8081/field/created
+Authorization: Bearer eyJhbGciOiJIUzUxMiJ9.eyJpYXQiOjE3MjQzMDU1ODYsImlkIjoiOGNiMWViOGUtYmQyZS00NDEzLWI0ZDEtYWRiMzUyNTViMTIxIiwidXNlcm5hbWUiOiIrOTk4OTQ1MDIyMTQ3Iiwicm9sZSI6IlJPTEVfQURNSU4iLCJyZWZyZXNoVG9rZW4iOmZhbHNlLCJleHAiOjE3MjQzOTE5ODYsImlzcyI6IlN0YWRpdW0ifQ.-u9mbBof_MDkEGzXDAhiq9ammn0XAecnFQ6uizc59qfEaR2WlwfbmkOliRwf0pXzON7Pbr_wcEjTUKmcrNbIuQ
+Accept-Language: UZ
+Content-Type: application/json
+
+{
+  "name": "Super tennis",
+  "description": "Farg'ona shahar Bozorni oldi, chimi eski usti yopilgan,dushlari bor likin ishlamaydi",
+  "fieldTypeId": 1,
+  "stadiumId": 6,
+  "photoList": ["3b247373-0c1e-4964-852f-4a43157c114f.jpg","6afc9f83-591b-4bbc-86c8-904379bcf244.webp"]
+}
