@@ -65,7 +65,7 @@ public class FieldBookingController {
     @GetMapping("/own/get-order-owner-stadium-id/{stadiumId}")
     public ResponseEntity<List<BookingResponseDto>> getOrderOwnerStadiumId(@PathVariable(value = "stadiumId") Integer stadiumId,
                                                                            @RequestHeader(value = "Accept-Language", defaultValue = "UZ") Language lang) {
-        List<BookingResponseDto> response = fieldBookingService.getOrderOwnerStadiumId2(stadiumId, lang);
+        List<BookingResponseDto> response = fieldBookingService.getOrderOwnerStadiumId(stadiumId, lang);
         return ResponseEntity.ok().body(response);
 
     }

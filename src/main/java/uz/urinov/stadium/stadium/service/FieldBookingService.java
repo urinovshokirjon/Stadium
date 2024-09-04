@@ -141,7 +141,7 @@ public class FieldBookingService {
             dto.setEndTime(bookingEntity.getEndTime());
             dto.setStatus(bookingEntity.getStatus());
             dto.setCreateDate(bookingEntity.getCreateDate());
-            dto.setFieldResponseMiniDto(fieldService.fieldDetailsMini(fieldService.getById(bookingEntity.getFieldId(), lang), lang));
+            dto.setFieldResponseMiniDto(fieldService.fieldDetailsMini(fieldEntity, lang));
             dto.setStadiumResponseMiniDto(stadiumService.stadiumDetailsMini(stadiumService.getStadiumById(dto.getFieldResponseMiniDto().getStadiumId(), lang)));
             responseList.add(dto);
 
@@ -150,30 +150,8 @@ public class FieldBookingService {
     }
 
     // Field order owner stadium id
+
     public List<BookingResponseDto> getOrderOwnerStadiumId(Integer stadiumId, Language lang) {
-
-        List<BookingResponseDto> responseList = new ArrayList<>();
-        StadiumEntity stadiumOwnerById = stadiumService.getStadiumOwnerById(stadiumId, lang);
-        for (FieldEntity fieldEntity : fieldRepository.findAllByStadiumIdAndVisibleTrueAndStatus(stadiumOwnerById.getId(), Status.ACTIVE)) {
-
-            for (FieldBookingEntity bookingEntity : fieldBookingRepository.findAllByFieldIdAndVisibleTrue(fieldEntity.getId())) {
-                BookingResponseDto dto = new BookingResponseDto();
-                dto.setStartTime(bookingEntity.getStartTime());
-                dto.setEndTime(bookingEntity.getEndTime());
-                dto.setStatus(bookingEntity.getStatus());
-                dto.setCreateDate(bookingEntity.getCreateDate());
-                dto.setFieldResponseMiniDto(fieldService.fieldDetailsMini(fieldService.getById(bookingEntity.getFieldId(), lang), lang));
-                dto.setStadiumResponseMiniDto(stadiumService.stadiumDetailsMini(stadiumService.getStadiumById(dto.getFieldResponseMiniDto().getStadiumId(), lang)));
-                responseList.add(dto);
-            }
-
-        }
-
-        return responseList;
-    }
-
-    public List<BookingResponseDto> getOrderOwnerStadiumId2(Integer stadiumId, Language lang) {
-
 
         StadiumEntity stadiumOwnerById = stadiumService.getStadiumOwnerById(stadiumId, lang);
         List<FieldEntity> fieldEntityList = fieldRepository.findAllByStadiumIdAndVisibleTrueAndStatus(stadiumOwnerById.getId(), Status.ACTIVE);
