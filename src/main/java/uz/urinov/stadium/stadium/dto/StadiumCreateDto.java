@@ -18,6 +18,10 @@ import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class StadiumCreateDto {
 
+    @NotBlank(message = "Name bo'sh bo'lishi mumkin emas")
+    @Size(min = 3, max = 50, message = "Berilgan Stadium (Name) ning uzunligi 3 va 50 orasida bo'lishi kerak")
+    private String name;
+
     @NotNull(message = "Lat bo'sh bo'lishi mumkin emas")
     private Double lat;
 

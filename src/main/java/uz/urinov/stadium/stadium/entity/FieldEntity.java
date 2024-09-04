@@ -28,6 +28,9 @@ public class FieldEntity {
     @Column(name = "average_rating")
     private Double averageRating = 0D;
 
+    @Column(name = "rating_count")
+    private Integer ratingCount = 0;
+
     @Column(name = "owner_id")
     private String ownerId;
     @ManyToOne(fetch = FetchType.LAZY)

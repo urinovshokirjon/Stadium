@@ -1,0 +1,1 @@
+UPDATE field  SET rating_count=0

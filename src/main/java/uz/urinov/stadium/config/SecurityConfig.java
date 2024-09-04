@@ -65,6 +65,9 @@ public class SecurityConfig {
                             .requestMatchers("/category/lang").permitAll()
                             .requestMatchers("/region/adm/**").hasRole("ADMIN")
                             .requestMatchers("/field-type/adm/**").hasRole("ADMIN")
+                            .requestMatchers("/stadium/owr/**").hasAnyRole("ADMIN","OWNER")
+                            .requestMatchers("/booking/owr/**").hasAnyRole("ADMIN","OWNER")
+                            .requestMatchers("/check/**").hasAnyRole("ADMIN","MODERATOR")
                             .requestMatchers("/region/lang").permitAll()
 
 

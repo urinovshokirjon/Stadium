@@ -8,7 +8,7 @@ import java.util.Date;
 
 public class JWTUtil {
     private static final int tokenLiveTimeDay = 1000 * 3600 * 24; // 1-day
-    private static final long tokenLiveTimeMonth = 1000 * 3600 * 24 * 30; // 1-day
+    private static final long tokenLiveTimeMonth = 1000L * 3600 * 24 * 30; // 1-day
     private static final String secretKey = "very_long_mazgiskjdh2skjdhadasdasg7fgdfgdfd213131321515451121231321231231231312231545412123154545122154512205454";
 
     public static String encodeDay(String profileId, String username, ProfileRole role) {

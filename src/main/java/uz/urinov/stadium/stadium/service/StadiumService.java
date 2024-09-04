@@ -6,6 +6,7 @@ import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import uz.urinov.stadium.Profile.enums.ProfileRole;
 import uz.urinov.stadium.auth.enums.Language;
 import uz.urinov.stadium.district.entity.DistrictEntity;
 import uz.urinov.stadium.district.repository.DistrictRepository;
@@ -14,15 +15,15 @@ import uz.urinov.stadium.exp.AppBadException;
 import uz.urinov.stadium.region.service.RegionService;
 import uz.urinov.stadium.stadium.dto.StadiumCreateDto;
 import uz.urinov.stadium.stadium.dto.StadiumResponseDto;
+import uz.urinov.stadium.stadium.dto.StadiumResponseMiniDto;
 import uz.urinov.stadium.stadium.entity.StadiumEntity;
-import uz.urinov.stadium.stadium.mapper.StadiumAttachMapper;
+import uz.urinov.stadium.stadium.enums.Status;
 import uz.urinov.stadium.stadium.repository.FieldRepository;
 import uz.urinov.stadium.stadium.repository.StadiumAttachRepository;
 import uz.urinov.stadium.stadium.repository.StadiumRepository;
 import uz.urinov.stadium.util.Result;
 import uz.urinov.stadium.util.SecurityUtil;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -66,12 +67,13 @@ public class StadiumService {
 
     // 2. Update stadium (ADMIN,OWNER)
     public Result updateStadium(int id, StadiumCreateDto dto, Language lang) {
-        StadiumEntity stadium = getStadiumEntityById(id, lang);
+        StadiumEntity stadium = getStadiumOwnerById(id, lang);
         stadium.setLat(dto.getLat());
         stadium.setLon(dto.getLon());
         stadium.setDescription(dto.getDescription());
         stadium.setDistrictId(dto.getDistrictId());
         stadium.setProfileId(SecurityUtil.getProfileId());
+        stadium.setStatus(Status.INACTIVE);
 
         StadiumEntity saveStadium = stadiumRepository.save(stadium);
         stadiumAttachService.stadiumAttachSave(dto.getPhotoList(), saveStadium.getId(), lang);
@@ -82,15 +84,24 @@ public class StadiumService {
 
     // 3. Delete stadium (ADMIN,OWNER)
     public Result deleteStadium(int stadiumId, Language lang) {
-        StadiumEntity entity = getStadiumEntityById(stadiumId, lang);
-        Integer effectiveRow = fieldRepository.updateFirstByVisible(SecurityUtil.getProfileId());
+
+        StadiumEntity entity =null;
+        if (SecurityUtil.getProfile().getRole().equals(ProfileRole.ROLE_OWNER)){
+             entity = getStadiumOwnerById(stadiumId, lang);
+        }
+        if (SecurityUtil.getProfile().getRole().equals(ProfileRole.ROLE_ADMIN)){
+             entity = getStadiumById(stadiumId, lang);
+        }
+
+        Integer effectiveRow = fieldRepository.updateFirstByVisible(entity.getId());
         entity.setVisible(false);
         stadiumRepository.save(entity);
         String message = rbms.getMessage("deleted", null, new Locale(lang.name()));
         return new Result("Stadium with " + effectiveRow + " field " + message, true);
+
     }
 
-    // 4. Delete stadium (ADMIN,OWNER)
+    // 4. Region Stadium List stadium
     public List<StadiumResponseDto> regionStadiumList(int regionId, Language lang, int page, int size, Double lat, Double lon) {
         // 1. Region ID ga mos keladigan barcha tumanlarni topamiz
         regionService.getRegionEntityById(regionId, lang);
@@ -111,24 +122,14 @@ public class StadiumService {
         Pageable pageable = PageRequest.of(page, size);
         List<StadiumEntity> stadiumEntityList = stadiumRepository.findClosestStadiums(lat, lon, pageable);
         return stadiumEntityList.stream().map(this::stadiumDetails).toList();
-
     }
 
-
-    public StadiumResponseDto stadiumDetails(StadiumAttachMapper mapper, Language lang) {
-        StadiumResponseDto dto = new StadiumResponseDto();
-        dto.setId(mapper.getId());
-        dto.setDescription(mapper.getDescription());
-        dto.setLat(mapper.getLat());
-        dto.setLon(mapper.getLon());
-        dto.setDistrict(districtService.getDistrictId(mapper.getDistrictId(), lang));
-        dto.setPhotolist(mapper.getAttachId());
-        return dto;
-    }
 
     public StadiumResponseDto stadiumDetails(StadiumEntity entity) {
         StadiumResponseDto dto = new StadiumResponseDto();
         dto.setId(entity.getId());
+        dto.setName(entity.getName());
+        dto.setStatus(entity.getStatus());
         dto.setDescription(entity.getDescription());
         dto.setLat(entity.getLat());
         dto.setLon(entity.getLon());
@@ -137,19 +138,32 @@ public class StadiumService {
         return dto;
     }
 
-    public StadiumEntity getStadiumEntityById(int id, Language lang) {
-        return stadiumRepository.findByIdAndProfileId(id, SecurityUtil.getProfileId()).orElseThrow(() -> {
+    public StadiumResponseMiniDto stadiumDetailsMini(StadiumEntity entity) {
+        StadiumResponseMiniDto dto = new StadiumResponseMiniDto();
+        dto.setId(entity.getId());
+        dto.setName(entity.getName());
+//        dto.setStatus(entity.getStatus());
+//        dto.setDescription(entity.getDescription());
+        dto.setLat(entity.getLat());
+        dto.setLon(entity.getLon());
+//        dto.setPhotolist(stadiumAttachRepository.findAttachIds(entity.getId()));
+        return dto;
+    }
+
+    public StadiumEntity getStadiumOwnerById(int id, Language lang) {
+        return stadiumRepository.findByIdAndProfileIdAndVisibleTrue(id, SecurityUtil.getProfileId()).orElseThrow(() -> {
             String message = rbms.getMessage("item.not.found", null, new Locale(lang.name()));
             throw new AppBadException(message);
         });
     }
 
     public StadiumEntity getStadiumById(int id, Language lang) {
-        return stadiumRepository.findById(id).orElseThrow(() -> {
+        return stadiumRepository.findByIdAndVisibleTrue(id).orElseThrow(() -> {
             String message = rbms.getMessage("item.not.found", null, new Locale(lang.name()));
             throw new AppBadException(message);
         });
     }
+
 
 
 }

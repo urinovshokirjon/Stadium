@@ -1,6 +1,6 @@
 package uz.urinov.stadium.auth.enums;
 
-public enum Status {
+public enum StatusAuth {
     INACTIVE,
     ACTIVE,
     NOT_FOUND,

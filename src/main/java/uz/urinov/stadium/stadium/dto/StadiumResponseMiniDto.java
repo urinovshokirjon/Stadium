@@ -10,27 +10,14 @@ import java.util.List;
 
 @Data
 @JsonInclude(JsonInclude.Include.NON_NULL)
-public class StadiumResponseDto {
+public class StadiumResponseMiniDto {
 
     private Integer id;
 
     private String name;
 
-    private Status status;
-
-    private DistrictResponseDTO district;
-
-    private String description;
-
     private Double lat;
 
     private Double lon;
 
-    private List<String> photolist;
-
-    private List<FieldResponseDto> fieldResponseDtoList;
-
-    private Boolean visible;
-
-    private LocalDate createDate;
 }

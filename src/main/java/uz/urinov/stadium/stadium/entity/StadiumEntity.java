@@ -21,6 +21,9 @@ public class StadiumEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    @Column(name = "name",length = 50)
+    private String name;
+
     @Column(name = "description", columnDefinition = "text")
     private String description;
 

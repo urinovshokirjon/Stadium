@@ -5,6 +5,7 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.query.Param;
 import uz.urinov.stadium.stadium.entity.FieldEntity;
 import uz.urinov.stadium.stadium.entity.StadiumEntity;
+import uz.urinov.stadium.stadium.enums.Status;
 
 import java.util.List;
 import java.util.Optional;
@@ -13,12 +14,13 @@ public interface FieldRepository extends CrudRepository<FieldEntity, Integer> {
 
     Optional<FieldEntity> findByIdAndOwnerId(Integer id, String ownerId);
 
-    List<FieldEntity> findAllByStadiumIdAndVisibleTrue(Integer stadiumId);
+    List<FieldEntity> findAllByStadiumIdAndVisibleTrueAndStatus(Integer stadiumId, Status status);
 
-    Optional<FieldEntity> findByIdAndVisibleTrue(Integer id);
+    Optional<FieldEntity> findByIdAndVisibleTrueAndStatus(Integer id,Status status);
 
-    @Query("UPDATE FieldEntity f SET f.visible=false WHERE f.ownerId=?1 ")
-    Integer updateFirstByVisible(String ownerId);
+    @Query("UPDATE FieldEntity f SET f.visible=false WHERE f.stadiumId=?1 ")
+    Integer updateFirstByVisible(Integer stadiumId);
+
 
     @Query("SELECT CASE " +
             "WHEN AVG(f.averageRating) IS NULL THEN 0 " +

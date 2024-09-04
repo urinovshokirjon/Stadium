@@ -20,7 +20,7 @@ import java.util.Optional;
 
 @Component
 public class SmsSenderTelegram implements LongPollingSingleThreadUpdateConsumer {
-    private TelegramClient telegramClient = new OkHttpTelegramClient("7362391012:AAFq2_IxOaffPRH_URdkJH2LbiGoj3-19Mk");
+    private TelegramClient telegramClient = new OkHttpTelegramClient(TokenHolder.token);
 
     @Autowired
     private TelegramChatRepository telegramChatRepository;

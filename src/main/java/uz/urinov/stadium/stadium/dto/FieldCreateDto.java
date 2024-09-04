@@ -20,7 +20,7 @@ import java.util.List;
 @JsonInclude(JsonInclude.Include.NON_NULL)
 public class FieldCreateDto {
 
-    @NotBlank(message = "Name   bo'sh bo'lishi mumkin emas")
+    @NotBlank(message = "Name bo'sh bo'lishi mumkin emas")
     @Size(min = 3, max = 50, message = "Berilgan field (Name) ning uzunligi 3 va 50 orasida bo'lishi kerak")
     private String name;
 

@@ -9,14 +9,13 @@ import uz.urinov.stadium.auth.enums.Language;
 import uz.urinov.stadium.exp.AppBadException;
 import uz.urinov.stadium.stadium.dto.FieldCreateDto;
 import uz.urinov.stadium.stadium.dto.FieldResponseDto;
+import uz.urinov.stadium.stadium.dto.FieldResponseMiniDto;
 import uz.urinov.stadium.stadium.entity.FieldEntity;
-import uz.urinov.stadium.stadium.entity.FieldPriceEntity;
-import uz.urinov.stadium.stadium.entity.FieldTypeEntity;
 import uz.urinov.stadium.stadium.entity.StadiumEntity;
+import uz.urinov.stadium.stadium.enums.Status;
 import uz.urinov.stadium.stadium.repository.FieldAttachRepository;
 import uz.urinov.stadium.stadium.repository.FieldPriceRepository;
 import uz.urinov.stadium.stadium.repository.FieldRepository;
-import uz.urinov.stadium.stadium.repository.StadiumRepository;
 import uz.urinov.stadium.util.Result;
 import uz.urinov.stadium.util.SecurityUtil;
 
@@ -33,7 +32,6 @@ public class FieldService {
     private final FieldRepository fieldRepository;
     private final FieldTypeService fieldTypeService;
     private final StadiumService stadiumService;
-    private final StadiumRepository stadiumRepository;
     private final FieldAttachService fieldAttachService;
     private final FieldAttachRepository fieldAttachRepository;
     private final FieldPriceRepository fieldPriceRepository;
@@ -47,7 +45,7 @@ public class FieldService {
             throw new AppBadException(message);
         }
         fieldTypeService.getFieldTypeId(dto.getFieldTypeId(), lang);
-        StadiumEntity stadium = stadiumService.getStadiumEntityById(dto.getStadiumId(), lang);
+        StadiumEntity stadium = stadiumService.getStadiumOwnerById(dto.getStadiumId(), lang);
 
         FieldEntity entity = new FieldEntity();
         entity.setName(dto.getName());
@@ -75,9 +73,9 @@ public class FieldService {
         }
 
         fieldTypeService.getFieldTypeId(dto.getFieldTypeId(), lang);
-        StadiumEntity stadium = stadiumService.getStadiumEntityById(dto.getStadiumId(), lang);
+        StadiumEntity stadium = stadiumService.getStadiumOwnerById(dto.getStadiumId(), lang);
 
-        FieldEntity entity = getFieldById(fieldId, lang);
+        FieldEntity entity = getFieldOwnerById(fieldId, lang);
         entity.setName(dto.getName());
         entity.setDescription(dto.getDescription());
         entity.setFieldTypeId(dto.getFieldTypeId());
@@ -95,8 +93,9 @@ public class FieldService {
 
     // Field delete
     public Result deleteField(int fieldId, Language lang) {
-        FieldEntity entity = getFieldById(fieldId, lang);
+        FieldEntity entity = getFieldOwnerById(fieldId, lang);
         entity.setVisible(false);
+        fieldRepository.save(entity);
         log.warn("Delete profile id = {}  phone = {} ", SecurityUtil.getProfile().getId(), SecurityUtil.getProfile().getPhone());
         String message = rbms.getMessage("changed", null, new Locale(lang.name()));
         return new Result("Field " + message, true);
@@ -104,48 +103,61 @@ public class FieldService {
 
     // get id Field
     public FieldResponseDto getIdField(int fieldId, Language lang) {
-
-        return null;
+        FieldEntity entity = getById(fieldId, lang);
+        return fieldDetails(entity, lang);
     }
 
     // Get by field List
     public List<FieldResponseDto> getFieldListStadium(int stadiumId, Language lang) {
         stadiumService.getStadiumById(stadiumId, lang);
         List<FieldResponseDto> responseDtoList = new ArrayList<>();
-        for (FieldEntity entity : fieldRepository.findAllByStadiumIdAndVisibleTrue(stadiumId)) {
-            responseDtoList.add(getListField(entity, lang));
+        for (FieldEntity entity : fieldRepository.findAllByStadiumIdAndVisibleTrueAndStatus(stadiumId, Status.ACTIVE)) {
+            responseDtoList.add(fieldDetails(entity, lang));
         }
         return responseDtoList;
     }
 
     // Field rating
     public Result ratingField(int fieldId, Integer rating, Language lang) {
-        getById(fieldId, lang);
-        FieldPriceEntity entity=new FieldPriceEntity();
-        entity.setFieldId(fieldId);
-        entity.setAverageRating(rating);
-        entity.setOwnerId(SecurityUtil.getProfileId());
-        fieldPriceRepository.save(entity);
+        FieldEntity entity = getById(fieldId, lang);
+        int count = entity.getRatingCount()+1;
+        Double averageRating = (entity.getAverageRating()*(count-1)+rating)/count;
+        entity.setRatingCount(count);
+        entity.setAverageRating(averageRating);
+        fieldRepository.save(entity);
         log.warn("Rating profile id = {}  phone = {} ", SecurityUtil.getProfile().getId(), SecurityUtil.getProfile().getPhone());
         String message = rbms.getMessage("created", null, new Locale(lang.name()));
         return new Result("Price " + message, true);
     }
 
 
-    public FieldResponseDto getListField(FieldEntity entity, Language lang) {
+    public FieldResponseDto fieldDetails(FieldEntity entity, Language lang) {
         FieldResponseDto dto = new FieldResponseDto();
         dto.setId(entity.getId());
+        dto.setStatus(entity.getStatus());
         dto.setName(entity.getName());
         dto.setDescription(entity.getDescription());
-        dto.setRating(fieldPriceRepository.ratingByFieldId(entity.getId()));
+        dto.setRating(entity.getAverageRating());
         dto.setStadiumId(entity.getStadiumId());
         dto.setFieldTypeResponseDto(fieldTypeService.toFieldTypeLang(entity.getFieldType(), lang));
         dto.setPhotolist(fieldAttachRepository.findAttachIds(entity.getId()));
         return dto;
     }
 
+    public FieldResponseMiniDto fieldDetailsMini(FieldEntity entity, Language lang) {
+        FieldResponseMiniDto dto = new FieldResponseMiniDto();
+        dto.setStadiumId(entity.getStadiumId());
+        dto.setId(entity.getId());
+        dto.setName(entity.getName());
+        dto.setDescription(entity.getDescription());
+        dto.setRating(entity.getAverageRating());
+        dto.setFieldTypeResponseDto(fieldTypeService.toFieldTypeLang(entity.getFieldType(), lang));
+        dto.setPhotolist(fieldAttachRepository.findAttachIds(entity.getId()));
+        return dto;
+    }
 
-    public FieldEntity getFieldById(int id, Language lang) {
+
+    public FieldEntity getFieldOwnerById(int id, Language lang) {
         return fieldRepository.findByIdAndOwnerId(id, SecurityUtil.getProfileId()).orElseThrow(() -> {
             String message = rbms.getMessage("item.not.found", null, new Locale(lang.name()));
             throw new AppBadException(message);
@@ -153,7 +165,7 @@ public class FieldService {
     }
 
     public FieldEntity getById(int id, Language lang) {
-        return fieldRepository.findByIdAndVisibleTrue(id).orElseThrow(() -> {
+        return fieldRepository.findByIdAndVisibleTrueAndStatus(id,Status.ACTIVE).orElseThrow(() -> {
             String message = rbms.getMessage("item.not.found", null, new Locale(lang.name()));
             throw new AppBadException(message);
         });

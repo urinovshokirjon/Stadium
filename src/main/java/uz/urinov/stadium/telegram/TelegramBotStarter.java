@@ -12,7 +12,7 @@ public class TelegramBotStarter implements CommandLineRunner {
     SmsSenderTelegram smsSenderTelegram;
 
     public void startBot() {
-        String botToken = "7362391012:AAFq2_IxOaffPRH_URdkJH2LbiGoj3-19Mk";
+        String botToken = TokenHolder.token;
         try (TelegramBotsLongPollingApplication botsApplication = new TelegramBotsLongPollingApplication()) {
             botsApplication.registerBot(botToken, smsSenderTelegram);
             System.out.println("SmsSenderTelegram successfully started!");

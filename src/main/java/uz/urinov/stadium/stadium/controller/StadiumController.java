@@ -48,7 +48,7 @@ public class StadiumController {
         return ResponseEntity.status(result.isSuccess() ? HttpStatus.OK : HttpStatus.CONFLICT).body(result);
     }
 
-    // 4. Region Stadium List stadium (ADMIN,OWNER)
+    // 4. Region Stadium List stadium
     @GetMapping("/region-id-stadium-list")
     public ResponseEntity<List<StadiumResponseDto>> regionIdStadiumList(@RequestParam(defaultValue = "0") int page,
                                                                         @RequestParam(defaultValue = "2") int size,
@@ -71,17 +71,6 @@ public class StadiumController {
         List<StadiumResponseDto> result = stadiumService.closestStadiumList(lang, page - 1, size, lat, lon);
         return ResponseEntity.ok().body(result);
     }
-
-
-    // 4.  Stadium List stadium lat, lon (User)
-
-
-//    // 3. Stadium list
-//    @GetMapping("/list")
-//    public ResponseEntity<List<StadiumResponseDto>> getStadiumList() {
-//        List<StadiumResponseDto> stadiumDtoList = stadiumService.getStadiumList();
-//        return ResponseEntity.status(HttpStatus.OK).body(stadiumDtoList);
-//    }
 
 
 }

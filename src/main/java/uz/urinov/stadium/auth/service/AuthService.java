@@ -2,12 +2,11 @@ package uz.urinov.stadium.auth.service;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.support.ResourceBundleMessageSource;
 import org.springframework.stereotype.Service;
 import uz.urinov.stadium.auth.dto.*;
 import uz.urinov.stadium.auth.enums.Language;
-import uz.urinov.stadium.auth.enums.Status;
+import uz.urinov.stadium.auth.enums.StatusAuth;
 import uz.urinov.stadium.Profile.dto.ProfileCreateDTO;
 import uz.urinov.stadium.Profile.dto.ProfileResponseDTO;
 import uz.urinov.stadium.Profile.entity.ProfileEntity;
@@ -40,19 +39,19 @@ public class AuthService {
         Optional<ProfileEntity> optionalProfile = profileRepository.findByPhone(dto.getPhone());
 
         if (optionalProfile.isEmpty()) {
-            response.setStatus(Status.NOT_FOUND);
+            response.setStatus(StatusAuth.NOT_FOUND);
             return response;
         }
         ProfileEntity profileEntity = optionalProfile.get();
         if (!profileEntity.getVisible()) {
-            response.setStatus(Status.BLOCKED);
+            response.setStatus(StatusAuth.BLOCKED);
             return response;
         }
         if (profileEntity.getStatus().equals(ProfileStatus.INACTIVE)) {
-            response.setStatus(Status.INACTIVE);
+            response.setStatus(StatusAuth.INACTIVE);
             return response;
         }
-        response.setStatus(Status.ACTIVE);
+        response.setStatus(StatusAuth.ACTIVE);
         return response;
 
     }
